@@ -1,0 +1,2379 @@
+<style>
+
+/* ══════════════════════════════════════
+   THEME TOKENS
+══════════════════════════════════════ */
+:root {
+  --bg-page:        #EDEEF3;
+  --bg-surface:     #FFFFFF;
+  --bg-subtle:      #F4F5FA;
+  --bg-sidebar:     #F0F2F7;
+  --sb-border:      rgba(0,0,0,0.08);
+  --sb-nav-label:   rgba(0,0,0,0.28);
+  --sb-item-color:  rgba(0,0,0,0.44);
+  --sb-item-hover-bg: rgba(0,0,0,0.05);
+  --sb-item-hover-color: rgba(0,0,0,0.82);
+  --sb-item-active-bg: rgba(0,146,255,0.10);
+  --sb-item-active-color: #0078D4;
+  --sb-active-bar:  #0092FF;
+  --sb-brand-name:  rgba(0,0,0,0.82);
+  --sb-brand-ver:   rgba(0,0,0,0.30);
+  --sb-toggle-bg:   rgba(0,0,0,0.05);
+  --sb-toggle-border: rgba(0,0,0,0.09);
+  --sb-toggle-color: rgba(0,0,0,0.40);
+  --sb-toggle-active-bg: #FFFFFF;
+  --sb-toggle-active-color: rgba(0,0,0,0.82);
+  --sb-toggle-active-shadow: 0 1px 4px rgba(0,0,0,0.14);
+  --border:         rgba(0,0,0,0.07);
+  --border-mid:     rgba(0,0,0,0.10);
+  --text-primary:   rgba(0,0,0,0.88);
+  --text-secondary: rgba(0,0,0,0.50);
+  --text-tertiary:  rgba(0,0,0,0.30);
+  --accent:         #0092FF;
+  --accent-sub:     rgba(0,146,255,0.12);
+  --shadow-sm:      0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:      0 4px 20px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg-page:        #090909;
+  --bg-surface:     #111113;
+  --bg-subtle:      #181819;
+  --bg-sidebar:     #0C0C0F;
+  --sb-border:      rgba(255,255,255,0.06);
+  --sb-nav-label:   rgba(255,255,255,0.18);
+  --sb-item-color:  rgba(255,255,255,0.40);
+  --sb-item-hover-bg: rgba(255,255,255,0.055);
+  --sb-item-hover-color: rgba(255,255,255,0.78);
+  --sb-item-active-bg: rgba(0,146,255,0.13);
+  --sb-item-active-color: #60BBFF;
+  --sb-active-bar:  #149AFF;
+  --sb-brand-name:  rgba(255,255,255,0.88);
+  --sb-brand-ver:   rgba(255,255,255,0.22);
+  --sb-toggle-bg:   rgba(255,255,255,0.05);
+  --sb-toggle-border: rgba(255,255,255,0.08);
+  --sb-toggle-color: rgba(255,255,255,0.35);
+  --sb-toggle-active-bg: rgba(255,255,255,0.10);
+  --sb-toggle-active-color: rgba(255,255,255,0.88);
+  --sb-toggle-active-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  --border:         rgba(255,255,255,0.07);
+  --border-mid:     rgba(255,255,255,0.11);
+  --text-primary:   rgba(255,255,255,0.90);
+  --text-secondary: rgba(255,255,255,0.48);
+  --text-tertiary:  rgba(255,255,255,0.26);
+  --accent:         #149AFF;
+  --accent-sub:     rgba(20,154,255,0.14);
+  --shadow-sm:      0 1px 3px rgba(0,0,0,0.5);
+  --shadow-md:      0 4px 20px rgba(0,0,0,0.55);
+}
+
+/* ══════════════════════════════════════
+   BASE
+══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ══════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════ */
+.sidebar {
+  width: 216px;
+  min-width: 216px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--sb-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 200;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* Brand */
+.sb-brand {
+  padding: 22px 18px 18px;
+  border-bottom: 1px solid var(--sb-border);
+  transition: border-color 0.3s;
+}
+.sb-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+.logo-mark {
+  width: 28px; height: 28px;
+  background: linear-gradient(140deg, #0092FF 10%, #1A83FF);
+  border-radius: 8px;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,146,255,0.35);
+}
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  width: 10px; height: 10px;
+  background: #FECF05;
+  border-radius: 3px;
+  bottom: -3px; right: -3px;
+  box-shadow: 0 0 0 1.5px var(--bg-sidebar);
+  transition: box-shadow 0.3s;
+}
+.sb-name { font-size: 14px; font-weight: 700; color: var(--sb-brand-name); letter-spacing: 0.2px; transition: color 0.3s; }
+.sb-ver {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--sb-brand-ver);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+/* Nav */
+.sb-nav { flex: 1; overflow-y: auto; padding: 12px 10px; scrollbar-width: none; }
+.sb-nav::-webkit-scrollbar { display: none; }
+.nav-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--sb-nav-label);
+  padding: 10px 10px 5px;
+  transition: color 0.3s;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--sb-item-color);
+  font-size: 12.5px; font-weight: 500;
+  transition: all 0.15s;
+  cursor: pointer;
+  margin-bottom: 1px;
+  position: relative;
+  user-select: none;
+}
+.nav-item:hover { background: var(--sb-item-hover-bg); color: var(--sb-item-hover-color); }
+.nav-item.active {
+  background: var(--sb-item-active-bg);
+  color: var(--sb-item-active-color);
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 16px;
+  background: var(--sb-active-bar);
+  border-radius: 0 2px 2px 0;
+}
+.nav-icon { width: 14px; height: 14px; opacity: 0.5; flex-shrink: 0; transition: opacity 0.15s; }
+.nav-item.active .nav-icon,
+.nav-item:hover .nav-icon { opacity: 1; }
+
+/* Footer: theme toggle */
+.sb-footer {
+  padding: 12px 10px 20px;
+  border-top: 1px solid var(--sb-border);
+  transition: border-color 0.3s;
+}
+.theme-pill {
+  display: flex;
+  background: var(--sb-toggle-bg);
+  border: 1px solid var(--sb-toggle-border);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.th-btn {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 7px 4px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--sb-toggle-color);
+  font-size: 12px; font-weight: 600;
+  font-family: 'Noto Sans SC', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.th-btn.active {
+  background: var(--sb-toggle-active-bg);
+  color: var(--sb-toggle-active-color);
+  box-shadow: var(--sb-toggle-active-shadow);
+}
+.th-btn svg { width: 11px; height: 11px; flex-shrink: 0; }
+.th-label-light, .th-label-dark { pointer-events: none; }
+
+/* ══════════════════════════════════════
+   MAIN
+══════════════════════════════════════ */
+.main { flex: 1; min-width: 0; overflow-x: hidden; }
+
+.pg-head {
+  padding: 48px 48px 0;
+}
+.eyebrow {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.eyebrow::before { content: ''; width: 18px; height: 1px; background: var(--accent); }
+h1 {
+  font-size: 44px; font-weight: 900;
+  letter-spacing: -2px; line-height: 1.04;
+  margin-bottom: 14px;
+}
+h1 em {
+  font-style: normal;
+  background: linear-gradient(130deg, #0092FF 0%, #1A83FF 50%, #00CBFF 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.pg-desc {
+  font-size: 14px; line-height: 1.8;
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin-bottom: 28px;
+}
+.pg-tags { display: flex; flex-wrap: wrap; gap: 7px; padding-bottom: 44px; border-bottom: 1px solid var(--border); }
+.tag {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px; font-weight: 500;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* ══════════════════════════════════════
+   CONTENT
+══════════════════════════════════════ */
+.content { padding: 0 48px 80px; }
+section { scroll-margin-top: 24px; }
+.sec-head { display: flex; align-items: baseline; gap: 10px; padding-top: 52px; margin-bottom: 5px; }
+.sec-title { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; }
+.sec-en {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.sec-rule { height: 1px; background: var(--border); margin-bottom: 20px; }
+
+/* Card */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.3s, border-color 0.3s;
+}
+.card-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 16px;
+}
+
+/* ══════════════════════════════════════
+   COLOR CHIPS — single theme display
+══════════════════════════════════════ */
+.col-grid { display: grid; gap: 9px; }
+.col-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.col-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.col-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.col-grid-5 { grid-template-columns: repeat(5, 1fr); }
+.chip {
+  border-radius: 11px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.16s, box-shadow 0.16s, border-color 0.3s;
+  cursor: default;
+}
+.chip:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+/* swatch is a single color, driven by JS-injected CSS variable or inline style */
+.chip-sw { height: 80px; transition: background 0.3s; }
+/* 亮色下显示底部细分割线（用于白色/浅色背景chip），暗夜模式下用主题边框色 */
+.chip-sw-divider {
+  border-bottom: 1px solid var(--border-mid);
+}
+/* 右侧背景/分割线chip：加完整描边，让深色chip在暗夜下轮廓清晰 */
+.chip-sw-bordered {
+  border: 1px solid var(--border-mid);
+  border-radius: 0;
+  /* 仅在暗夜下显著，亮色几乎不可见 */
+  box-sizing: border-box;
+}
+.chip-info {
+  padding: 9px 11px;
+  background: var(--bg-surface);
+  transition: background 0.3s;
+}
+.chip-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s; }
+.chip-hex { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); transition: color 0.3s; }
+
+/* Each chip stores both values as data attrs */
+/* JS will set .chip-sw background from data-light / data-dark */
+
+/* Semantic chips */
+.sem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.sem-chip { border-radius: 11px; overflow: hidden; border: 1px solid var(--border); transition: border-color 0.3s; }
+.sem-main { height: 58px; transition: background 0.3s; }
+.sem-lt   { height: 22px; transition: background 0.3s; }
+.sem-info { padding: 9px 11px; background: var(--bg-surface); transition: background 0.3s; }
+.sem-name { font-size: 12px; font-weight: 600; color: var(--text-primary); transition: color 0.3s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sem-hex  { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); margin-top: 1px; transition: color 0.3s; }
+
+/* Text hierarchy */
+.txh-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.txh-item {
+  border-radius: 11px; border: 1px solid var(--border);
+  padding: 16px; background: var(--bg-subtle);
+  transition: background 0.3s, border-color 0.3s;
+}
+.txh-sample { font-size: 20px; font-weight: 600; margin-bottom: 7px; transition: color 0.3s; }
+.txh-label  { font-size: 12px; color: var(--text-tertiary); transition: color 0.3s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.txh-val    { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-tertiary); margin-top: 2px; transition: color 0.3s; }
+
+/* ══════════════════════════════════════
+   RADIUS
+══════════════════════════════════════ */
+.rad-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 9px; }
+.rad-item {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: 11px; padding: 18px 12px; text-align: center;
+  transition: all 0.16s;
+}
+.rad-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.rad-box {
+  width: 52px; height: 33px;
+  background: linear-gradient(135deg, var(--accent), #1A83FF);
+  margin: 0 auto 11px;
+}
+.rad-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; white-space: nowrap; }
+.rad-val  { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ══════════════════════════════════════
+   SPACING
+══════════════════════════════════════ */
+.sp-list { display: flex; flex-direction: column; gap: 5px; }
+.sp-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 13px;
+  background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 9px;
+  transition: all 0.16s;
+}
+.sp-row:hover { background: var(--bg-surface); box-shadow: var(--shadow-sm); }
+.sp-meta { width: 130px; display: flex; gap: 7px; align-items: baseline; flex-shrink: 0; }
+.sp-tok { font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+.sp-px  { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
+.sp-bar-w { flex: 1; }
+.sp-bar { height: 5px; border-radius: 999px; background: linear-gradient(90deg, var(--accent), #FECF05); min-width: 3px; }
+.sp-use { width: 72px; font-size: 12px; color: var(--text-tertiary); text-align: right; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ══════════════════════════════════════
+   TYPOGRAPHY
+══════════════════════════════════════ */
+.typ-tbl { width: 100%; border-collapse: collapse; white-space: nowrap; }
+.typ-tbl tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+.typ-tbl tr:last-child { border-bottom: none; }
+.typ-tbl tr:hover { background: var(--bg-subtle); }
+.typ-tbl td { padding: 11px 14px; }
+.tc-tok { width: 56px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
+.tc-px  { width: 40px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); font-weight: 500; white-space: nowrap; }
+.tc-s   { color: var(--text-primary); white-space: nowrap; }
+.tc-u   { font-size: 12px; color: var(--text-tertiary); text-align: right; white-space: nowrap; }
+
+/* ══════════════════════════════════════
+   STROKE
+══════════════════════════════════════ */
+.stk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.stk-item { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 11px; padding: 22px; text-align: center; transition: background 0.3s, border-color 0.3s; }
+.stk-vis { width: 100%; height: 44px; background: var(--bg-surface); border-radius: 7px; display: flex; align-items: center; justify-content: center; margin-bottom: 13px; transition: background 0.3s; }
+.stk-inn { width: 75%; height: 100%; border-radius: 6px; background: var(--bg-subtle); transition: background 0.3s; }
+.stk-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; white-space: nowrap; }
+.stk-val  { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-tertiary); }
+
+/* ══════════════════════════════════════
+   OPACITY
+══════════════════════════════════════ */
+.op-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.op-card { border-radius: 11px; overflow: hidden; border: 1px solid var(--border); transition: border-color 0.3s; }
+.op-sw { height: 52px; display: flex; align-items: center; justify-content: center; }
+.op-info { padding: 11px 13px; background: var(--bg-surface); transition: background 0.3s; }
+.op-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; white-space: nowrap; }
+.op-val  { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-tertiary); }
+.img-demo { width: 38px; height: 38px; background: linear-gradient(135deg, var(--accent), #FECF05); border-radius: 7px; }
+
+/* ══════════════════════════════════════
+   STRINGS
+══════════════════════════════════════ */
+.str-tbl { width: 100%; border-collapse: collapse; }
+.str-tbl th { padding: 9px 14px; background: var(--bg-subtle); color: var(--text-tertiary); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-align: left; border-bottom: 1px solid var(--border); transition: background 0.3s; }
+.str-tbl td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-primary); transition: all 0.12s; }
+.str-tbl tr:last-child td { border-bottom: none; }
+.str-tbl tr:hover td { background: var(--bg-subtle); }
+.mono { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); }
+
+/* ══════════════════════════════════════
+   SUMMARY
+══════════════════════════════════════ */
+/* Summary cards are always fixed — light shows light card prominent, dark shows dark card prominent */
+.sum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sum-card { border-radius: 14px; border: 1px solid; padding: 22px; position: relative; overflow: hidden; transition: opacity 0.3s, transform 0.3s; }
+.sum-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 130px; height: 130px; border-radius: 50%; opacity: .07; pointer-events: none; }
+.sum-light { background: #FFFFFF; border-color: #E2E5EE; color: rgba(0,0,0,0.85); }
+.sum-light::before { background: #0092FF; }
+.sum-dark  { background: #0C0C0F; border-color: #2A2A2E; color: rgba(255,255,255,0.85); }
+.sum-dark::before  { background: #149AFF; }
+
+/* dim inactive theme card */
+.sum-card.dim { opacity: 0.38; transform: scale(0.985); }
+
+.sum-lbl { font-size: 12px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 18px; opacity: .5; }
+.sum-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid; font-size: 12px; }
+.sum-light .sum-row { border-color: rgba(0,0,0,0.07); }
+.sum-dark  .sum-row { border-color: rgba(255,255,255,0.07); }
+.sum-row:last-child { border-bottom: none; }
+.sum-key { opacity: .50; }
+.sum-val { display: flex; align-items: center; gap: 5px; font-family: 'DM Mono', monospace; font-size: 12px; opacity: .85; }
+.sw { display: inline-block; width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+
+/* ══════════════════════════════════════
+   ANIMATIONS — INIT
+══════════════════════════════════════ */
+
+/* Sidebar slides in from left */
+@keyframes sbSlideIn {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Content fades up */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards stagger in */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+/* Sidebar brand + nav */
+.sidebar {
+  animation: sbSlideIn 0.45s cubic-bezier(0.22,1,0.36,1) both 0s;
+}
+
+/* Page header sequence */
+.eyebrow   { animation: fadeUp 0.4s ease both 0.18s; }
+h1         { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both 0.24s; }
+.pg-desc   { animation: fadeUp 0.45s ease both 0.34s; }
+.pg-tags   { animation: fadeUp 0.45s ease both 0.42s; }
+
+/* Cards stagger — JS will add inline animation-delay */
+.card      { animation: cardIn 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE — TABLET (≤900px)
+══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .sem-grid { grid-template-columns: repeat(2, 1fr); }
+  .txh-grid { grid-template-columns: repeat(2, 1fr); }
+  .sum-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — MOBILE (≤640px)
+══════════════════════════════════════ */
+@media (max-width: 640px) {
+  /* Layout: sidebar collapses to top horizontal bar */
+  body { flex-direction: column; }
+
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    position: sticky;
+    top: 0;
+    flex-direction: column;
+    border-right: none;
+    border-bottom: 1px solid var(--sb-border);
+    z-index: 300;
+  }
+
+  /* Brand row: flex row, logo left, toggle right — sidebar is relative for absolute child */
+  .sidebar { position: relative; }
+  .sb-brand {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px 10px 14px;
+    border-bottom: none;
+    /* leave right gap for the absolute-positioned toggle */
+    padding-right: 140px;
+  }
+  .sb-logo { margin-bottom: 0; flex-shrink: 0; }
+  .sb-ver  { display: none; }
+
+  /* Theme toggle: absolutely anchored to brand row right edge */
+  .sb-footer {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    bottom: auto;
+    padding: 0;
+    border-top: none;
+    width: auto;
+    /* prevent it from stretching */
+    display: inline-flex;
+    align-items: center;
+  }
+  .theme-pill { border-radius: 8px; }
+  .th-btn { padding: 6px 10px; font-size: 12px; gap: 4px; white-space: nowrap; }
+  .th-btn svg { width: 10px; height: 10px; }
+
+  /* Nav: horizontal scrollable tab strip */
+  .sb-nav {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 4px;
+    gap: 0;
+    border-top: 1px solid var(--sb-border);
+    /* hide scrollbar on mobile */
+    scrollbar-width: none;
+  }
+  .sb-nav::-webkit-scrollbar { display: none; }
+  .nav-label { display: none; }
+  /* Hide export buttons on mobile — they overflow the tab bar */
+  .export-section-label { display: none; }
+  .export-group { display: none; }
+  .nav-item {
+    flex-direction: row;
+    flex-shrink: 0;
+    padding: 10px 13px;
+    font-size: 12px;
+    border-radius: 0;
+    margin-bottom: 0;
+    border-bottom: 2px solid transparent;
+    /* prevent text wrap in tab labels */
+    white-space: nowrap;
+    /* remove left active bar on mobile */
+    position: relative;
+  }
+  .nav-item:hover { background: transparent; }
+  .nav-item.active {
+    background: transparent;
+    color: var(--sb-item-active-color);
+    border-bottom-color: var(--sb-active-bar);
+  }
+  .nav-item.active::before { display: none; }
+  .nav-icon { display: none; }
+
+  /* Main content */
+  .main { width: 100%; }
+  .pg-head { padding: 28px 20px 0; }
+  .content  { padding: 0 20px 60px; }
+  h1 { font-size: 30px; letter-spacing: -1px; }
+  .pg-desc  { font-size: 13px; }
+
+  /* Grids collapse to single column */
+  .col-grid-2, .col-grid-3, .col-grid-4, .col-grid-5 { grid-template-columns: repeat(2, 1fr); }
+  .rad-grid  { grid-template-columns: repeat(3, 1fr); }
+  .stk-grid  { grid-template-columns: 1fr; }
+  .op-grid   { grid-template-columns: 1fr; }
+  .sum-grid  { grid-template-columns: 1fr; }
+  .sem-grid  { grid-template-columns: repeat(2, 1fr); }
+  .txh-grid  { grid-template-columns: repeat(2, 1fr); }
+
+  /* Spacing rows: hide description text */
+  .sp-use { display: none; }
+
+  /* Typography table: hide usage column */
+  .tc-u { display: none; }
+}
+
+/* ══════════════════════════════════════
+   COPY INTERACTION
+══════════════════════════════════════ */
+
+/* Copyable elements */
+.chip, .sem-chip, .rad-item, .sp-row { cursor: pointer; }
+.txh-item { cursor: pointer; }
+.tc-px, .str-tbl td.mono, .sum-row { cursor: pointer; }
+
+/* Scale feedback on click */
+.chip:active  { transform: scale(0.99) !important; }
+.rad-item:active { transform: scale(0.99) !important; }
+
+/* COPY badge — chips */
+.chip { position: relative; }
+.chip::after {
+  content: 'COPY';
+  position: absolute;
+  top: 7px; right: 7px;
+  background: rgba(0,0,0,0.60);
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 1.2px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.14s;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+.chip:hover::after { opacity: 1; }
+
+/* copied feedback: unified bottom toast only */
+
+/* Copyable table cells / row highlight */
+.tc-px { position: relative; }
+.tc-px::after, .str-tbl td.mono::after {
+  content: '⌘C';
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  opacity: 0;
+  margin-left: 5px;
+  transition: opacity 0.14s;
+}
+.tc-px:hover::after, .str-tbl td.mono:hover::after { opacity: 0.7; }
+.tc-px:hover, .str-tbl td.mono:hover {
+  background: var(--accent-sub);
+  border-radius: 4px;
+}
+
+/* Spacing row copy hint */
+.sp-row:hover .sp-tok {
+  color: var(--accent);
+}
+
+/* Radius item copy hint */
+.rad-item { position: relative; }
+.rad-item::after {
+  content: 'COPY';
+  position: absolute;
+  top: 6px; right: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--text-tertiary);
+  opacity: 0;
+  transition: opacity 0.14s;
+}
+.rad-item:hover::after { opacity: 1; }
+
+
+/* sem-chip copy */
+.sem-chip { position: relative; cursor: pointer; }
+.sem-chip::after {
+  content: 'COPY';
+  position: absolute;
+  top: 6px; right: 8px;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.14s;
+  pointer-events: none;
+}
+.sem-chip:hover::after { opacity: 1; }
+
+
+/* txh-item copy */
+.txh-item:hover { outline: 1px solid var(--accent); outline-offset: 1px; }
+
+
+/* sum-row */
+.sum-row:hover { background: rgba(0,146,255,0.06); border-radius: 6px; }
+
+
+/* Toast */
+#copy-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(14px);
+  background: rgba(10,10,12,0.90);
+  color: white;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 9px 20px 9px 14px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.22s, transform 0.22s;
+  z-index: 9999;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.10);
+  display: flex; align-items: center; gap: 8px;
+}
+#copy-toast::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: #06B578;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+#copy-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Export panel */
+.export-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--sb-nav-label);
+  padding: 14px 10px 7px;
+  transition: color 0.3s;
+}
+.export-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 0 4px;
+}
+.export-btn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--sb-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sb-item-color);
+  font-size: 12px; font-weight: 500;
+  font-family: 'Noto Sans SC', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  letter-spacing: 0.2px;
+}
+.export-btn:hover {
+  background: var(--sb-item-active-bg);
+  color: var(--sb-item-active-color);
+  border-color: rgba(0,146,255,0.3);
+}
+.export-btn-icon {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+.export-btn-icon.ios     { background: rgba(0,122,255,0.12); }
+.export-btn-icon.android { background: rgba(61,180,76,0.12); }
+.export-btn-icon.md      { background: rgba(255,149,0,0.12); }
+.export-btn-icon.flutter { background: rgba(2,122,195,0.12); }
+.export-btn-text { flex: 1; min-width: 0; overflow: hidden; }
+.export-btn-title { font-size: 12px; font-weight: 600; color: var(--sb-brand-name); transition: color 0.3s; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.export-btn-sub { font-size: 10px; color: var(--sb-brand-ver); font-family: 'DM Mono', monospace; display: block; margin-top: 1px; transition: color 0.3s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.export-btn:hover .export-btn-title { color: var(--sb-item-active-color); }
+.export-btn:hover .export-btn-sub { color: var(--sb-item-active-color); opacity: 0.7; }
+.export-btn-icon svg { width: 16px; height: 16px; flex-shrink: 0; }
+.export-btn-arrow { width: 12px; height: 12px; flex-shrink: 0; opacity: 0.35; margin-left: auto; }
+/* Mobile download toggle button — hidden on desktop */
+.mob-dl-btn { display: none; }
+.mob-dl-panel { display: none; }
+
+@media (max-width: 640px) {
+  /* Download icon button — sits between logo and theme toggle */
+  .mob-dl-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    border: 1px solid var(--sb-border);
+    border-radius: 8px;
+    background: var(--sb-toggle-bg);
+    color: var(--sb-item-color);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-right: 8px;
+    transition: all 0.15s;
+  }
+  .mob-dl-btn svg { width: 14px; height: 14px; }
+  .mob-dl-btn:hover, .mob-dl-btn.open {
+    background: var(--sb-item-active-bg);
+    color: var(--sb-item-active-color);
+    border-color: rgba(0,146,255,0.35);
+  }
+
+  /* Dropdown panel */
+  .mob-dl-panel {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 12px;
+    width: 240px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-mid);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
+    z-index: 500;
+    overflow: hidden;
+    /* animation */
+    transform-origin: top right;
+    transform: scale(0.92) translateY(-6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.2s cubic-bezier(0.22,1,0.36,1), opacity 0.18s ease;
+  }
+  .mob-dl-panel.open {
+    display: block;
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mob-dl-item {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%;
+    padding: 11px 14px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+  .mob-dl-item:last-child { border-bottom: none; }
+  .mob-dl-item:hover { background: var(--bg-subtle); }
+  .mob-dl-item:active { background: var(--accent-sub); }
+  .mob-dl-icon {
+    width: 28px; height: 28px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .mob-dl-icon svg { width: 15px; height: 15px; }
+  .mob-dl-icon.ios     { background: rgba(0,122,255,0.12); }
+  .mob-dl-icon.android { background: rgba(61,180,76,0.12); }
+  .mob-dl-icon.md      { background: rgba(255,149,0,0.12); }
+  .mob-dl-icon.flutter { background: rgba(2,122,195,0.12); }
+  .mob-dl-info { flex: 1; min-width: 0; }
+  .mob-dl-title {
+    display: block;
+    font-size: 13px; font-weight: 600;
+    color: var(--text-primary);
+    font-family: 'Noto Sans SC', sans-serif;
+    white-space: nowrap;
+  }
+  .mob-dl-sub {
+    display: block;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-top: 1px;
+  }
+  .mob-dl-arrow { width: 12px; height: 12px; flex-shrink: 0; opacity: 0.3; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="sb-name">鱼泡直聘</div>
+      </div>
+    </div>
+    <div class="sb-ver">Design System · 2026</div>
+    <!-- Mobile download toggle button -->
+    <button class="mob-dl-btn" id="mob-dl-btn" onclick="toggleMobDownload()" aria-label="下载规范文档">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <!-- Mobile download dropdown -->
+  <div class="mob-dl-panel" id="mob-dl-panel">
+    <button class="mob-dl-item" onclick="exportDoc('ios');closeMobDownload()">
+      <span class="mob-dl-icon ios"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2.5a2 2 0 012 2c0 .72-.25 1.37-.66 1.88L10.5 13.5h-5l1.16-7.12A3.01 3.01 0 015 4.5a3 3 0 013-2z" fill="rgba(0,122,255,0.9)"/><circle cx="8" cy="4.5" r="1" fill="white"/></svg></span>
+      <span class="mob-dl-info"><span class="mob-dl-title">iOS 原生</span><span class="mob-dl-sub">YPDesignTokens.swift</span></span>
+      <svg class="mob-dl-arrow" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="mob-dl-item" onclick="exportDoc('android');closeMobDownload()">
+      <span class="mob-dl-icon android"><svg viewBox="0 0 16 16" fill="none"><path d="M5 7.5V5.5a3 3 0 016 0v2" stroke="rgba(61,180,76,0.9)" stroke-width="1.4" stroke-linecap="round"/><rect x="3" y="7" width="10" height="6.5" rx="1.5" fill="rgba(61,180,76,0.85)"/><circle cx="5.5" cy="10.2" r="0.8" fill="white"/><circle cx="10.5" cy="10.2" r="0.8" fill="white"/></svg></span>
+      <span class="mob-dl-info"><span class="mob-dl-title">Android 原生</span><span class="mob-dl-sub">colors.xml + dimens.xml</span></span>
+      <svg class="mob-dl-arrow" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="mob-dl-item" onclick="exportDoc('md');closeMobDownload()">
+      <span class="mob-dl-icon md"><svg viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5" fill="rgba(255,149,0,0.15)" stroke="rgba(255,149,0,0.7)" stroke-width="1"/><path d="M3.5 10V6.5l1.8 2.2 1.7-2.2V10M8.5 10V6.5M10.5 8.5l1.5-2V10" stroke="rgba(255,149,0,1)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="mob-dl-info"><span class="mob-dl-title">Markdown</span><span class="mob-dl-sub">鱼泡直聘_设计规范.md</span></span>
+      <svg class="mob-dl-arrow" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="mob-dl-item" onclick="exportDoc('flutter');closeMobDownload()">
+      <span class="mob-dl-icon flutter"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8L7.5 3.5 12 8 9.5 10.5 7.5 8.5 5.5 10.5 3 8z" fill="rgba(2,122,195,0.9)"/><path d="M7.5 8.5l2 2-2 2-2-2 2-2z" fill="rgba(2,195,154,0.95)"/></svg></span>
+      <span class="mob-dl-info"><span class="mob-dl-title">Flutter</span><span class="mob-dl-sub">yp_design_tokens.dart</span></span>
+      <svg class="mob-dl-arrow" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="nav-label">Tokens</div>
+
+    <a class="nav-item active" href="#color">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+        <circle cx="5.5" cy="6.5" r="3" fill="#0092FF" opacity=".9"/>
+        <circle cx="10.5" cy="6.5" r="3" fill="#FECF05" opacity=".9"/>
+        <circle cx="8" cy="10.5" r="3" fill="#06B578" opacity=".9"/>
+      </svg>
+      颜色
+    </a>
+    <a class="nav-item" href="#radius">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+        <rect x="2.5" y="2.5" width="11" height="11" rx="3.5" stroke="currentColor" stroke-width="1.4" fill="none"/>
+      </svg>
+      圆角
+    </a>
+    <a class="nav-item" href="#spacing">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4h12M2 8h8M2 12h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      间距
+    </a>
+    <a class="nav-item" href="#typography">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+        <path d="M3 3h10v2H9.5v8h-3V5H3V3z" fill="currentColor"/>
+      </svg>
+      字号
+    </a>
+    <a class="nav-item" href="#stroke">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+        <path d="M2 7.5h12" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/>
+        <path d="M2 11h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      描边
+    </a>
+    <a class="nav-item" href="#opacity">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+        <rect x="2" y="2" width="12" height="12" rx="2.5" fill="currentColor" opacity=".12"/>
+        <rect x="5" y="5" width="6" height="6" rx="1.5" fill="currentColor" opacity=".55"/>
+      </svg>
+      透明度
+    </a>
+    <a class="nav-item" href="#strings">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+        <path d="M3 5h10M3 8h7M3 11h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      字符串
+    </a>
+    <a class="nav-item" href="#summary">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+        <rect x="2" y="2" width="5.5" height="5.5" rx="1.5" fill="currentColor"/>
+        <rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5" fill="currentColor" opacity=".35"/>
+        <rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5" fill="currentColor" opacity=".35"/>
+        <rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5" fill="currentColor"/>
+      </svg>
+      主题摘要
+    </a>
+
+    <div class="export-section-label">导出规范文档</div>
+    <div class="export-group">
+      <button class="export-btn" onclick="exportDoc('ios')">
+        <div class="export-btn-icon ios">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M8 2.5a2 2 0 012 2c0 .72-.25 1.37-.66 1.88L10.5 13.5h-5l1.16-7.12A3.01 3.01 0 015 4.5a3 3 0 013-2z" fill="rgba(0,122,255,0.9)"/>
+            <circle cx="8" cy="4.5" r="1" fill="white"/>
+          </svg>
+        </div>
+        <div class="export-btn-text">
+          <span class="export-btn-title">iOS 原生</span>
+          <span class="export-btn-sub">YPDesignTokens.swift</span>
+        </div>
+        <svg class="export-btn-arrow" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="export-btn" onclick="exportDoc('android')">
+        <div class="export-btn-icon android">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M5 7.5V5.5a3 3 0 016 0v2" stroke="rgba(61,180,76,0.9)" stroke-width="1.4" stroke-linecap="round"/>
+            <rect x="3" y="7" width="10" height="6.5" rx="1.5" fill="rgba(61,180,76,0.85)"/>
+            <circle cx="5.5" cy="10.2" r="0.8" fill="white"/>
+            <circle cx="10.5" cy="10.2" r="0.8" fill="white"/>
+          </svg>
+        </div>
+        <div class="export-btn-text">
+          <span class="export-btn-title">Android 原生</span>
+          <span class="export-btn-sub">colors.xml + dimens.xml</span>
+        </div>
+        <svg class="export-btn-arrow" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="export-btn" onclick="exportDoc('md')">
+        <div class="export-btn-icon md">
+          <svg viewBox="0 0 16 16" fill="none">
+            <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" fill="rgba(255,149,0,0.15)" stroke="rgba(255,149,0,0.7)" stroke-width="1"/>
+            <path d="M3.5 10V6.5l1.8 2.2 1.7-2.2V10M8.5 10V6.5M10.5 8.5l1.5-2V10" stroke="rgba(255,149,0,1)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="export-btn-text">
+          <span class="export-btn-title">Markdown</span>
+          <span class="export-btn-sub">鱼泡直聘_设计规范.md</span>
+        </div>
+        <svg class="export-btn-arrow" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="export-btn" onclick="exportDoc('flutter')">
+        <div class="export-btn-icon flutter">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M3 8L7.5 3.5 12 8 9.5 10.5 7.5 8.5 5.5 10.5 3 8z" fill="rgba(2,122,195,0.9)"/>
+            <path d="M7.5 8.5l2 2-2 2-2-2 2-2z" fill="rgba(2,195,154,0.95)"/>
+          </svg>
+        </div>
+        <div class="export-btn-text">
+          <span class="export-btn-title">Flutter</span>
+          <span class="export-btn-sub">yp_design_tokens.dart</span>
+        </div>
+        <svg class="export-btn-arrow" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Theme toggle -->
+  <div class="sb-footer">
+    <div class="theme-pill">
+      <button class="th-btn active" id="btn-light" onclick="setTheme('light')">
+        <svg viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="2.2" fill="currentColor"/>
+          <path d="M6 1v1.3M6 9.7V11M1 6h1.3M9.7 6H11M2.6 2.6l.9.9M8.5 8.5l.9.9M9.4 2.6l-.9.9M3.5 8.5l-.9.9" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+        </svg>
+        <span class="th-label-light">亮色</span>
+      </button>
+      <button class="th-btn" id="btn-dark" onclick="setTheme('dark')">
+        <svg viewBox="0 0 12 12" fill="none">
+          <path d="M10 6.5A4.5 4.5 0 015.5 11 4.5 4.5 0 011 6.5 4.5 4.5 0 005.5 2c.28 0 .55.02.82.06A3.5 3.5 0 0010 5.68c0 .28-.02.55-.06.82z" fill="currentColor"/>
+        </svg>
+        <span class="th-label-dark">暗夜</span>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="pg-head">
+    <div class="eyebrow">Design Tokens</div>
+    <h1>鱼泡直聘<br><em>设计规范</em></h1>
+    <p class="pg-desc">Figma 变量库导出的全量设计 Token，切换左侧按钮可分别预览「亮色」与「暗夜」两套主题的颜色规范。</p>
+    <div class="pg-tags">
+      <span class="tag">🎨 双主题</span>
+      <span class="tag">📐 4px 间距体系</span>
+      <span class="tag">🔤 13 级字号</span>
+      <span class="tag">⚡ Figma 变量同步</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══ COLOR ══ -->
+    <section id="color">
+      <div class="sec-head">
+        <span class="sec-title">颜色</span>
+        <span class="sec-en">Color Tokens</span>
+      </div>
+      <div class="sec-rule"></div>
+
+      <!-- 主色系 -->
+      <div class="card">
+        <div class="card-lbl">主色系 Primary</div>
+        <div class="col-grid col-grid-3">
+          <div class="chip" data-light="#0092FF" data-dark="#149AFF" data-label-light="#0092FF" data-label-dark="#149AFF" data-name="主色">
+            <div class="chip-sw"></div>
+            <div class="chip-info"><div class="chip-name">主色</div><div class="chip-hex"></div></div>
+          </div>
+          <div class="chip" data-light="#E0F3FF" data-dark="#1D2A3F" data-label-light="#E0F3FF" data-label-dark="#1D2A3F" data-name="主色浅">
+            <div class="chip-sw"></div>
+            <div class="chip-info"><div class="chip-name">主色浅</div><div class="chip-hex"></div></div>
+          </div>
+          <div class="chip" data-light="#99D3FF" data-dark="#2B394F" data-label-light="#99D3FF" data-label-dark="#2B394F" data-name="主色禁用">
+            <div class="chip-sw"></div>
+            <div class="chip-info"><div class="chip-name">主色禁用</div><div class="chip-hex"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 品牌色 -->
+      <div class="card">
+        <div class="card-lbl">品牌色 Brand</div>
+        <div class="col-grid col-grid-2">
+          <div class="chip" data-light="#1A83FF" data-dark="#1A83FF" data-label-light="#1A83FF" data-label-dark="#1A83FF" data-name="品牌色蓝">
+            <div class="chip-sw"></div>
+            <div class="chip-info"><div class="chip-name">品牌色蓝</div><div class="chip-hex"></div></div>
+          </div>
+          <div class="chip" data-light="#FECF05" data-dark="#FECF05" data-label-light="#FECF05" data-label-dark="#FECF05" data-name="品牌色黄">
+            <div class="chip-sw"></div>
+            <div class="chip-info"><div class="chip-name">品牌色黄</div><div class="chip-hex"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 语义色 -->
+      <div class="card">
+        <div class="card-lbl">语义色 Semantic</div>
+        <div class="sem-grid">
+          <div class="sem-chip"
+            data-main-light="#E8362E" data-main-dark="#FF5F5F"
+            data-lt-light="#FFEBEC"  data-lt-dark="#3F2727"
+            data-hex-main-light="#E8362E" data-hex-main-dark="#FF5F5F"
+            data-hex-lt-light="#FFEBEC" data-hex-lt-dark="#3F2727">
+            <div class="sem-main"></div><div class="sem-lt"></div>
+            <div class="sem-info"><div class="sem-name">红 · 错误</div><div class="sem-hex"></div></div>
+          </div>
+          <div class="sem-chip"
+            data-main-light="#06B578" data-main-dark="#44B138"
+            data-lt-light="#DFF2EC"  data-lt-dark="#1E2C1C"
+            data-hex-main-light="#06B578" data-hex-main-dark="#44B138"
+            data-hex-lt-light="#DFF2EC" data-hex-lt-dark="#1E2C1C">
+            <div class="sem-main"></div><div class="sem-lt"></div>
+            <div class="sem-info"><div class="sem-name">绿 · 成功</div><div class="sem-hex"></div></div>
+          </div>
+          <div class="sem-chip"
+            data-main-light="#FF8904" data-main-dark="#EB8F26"
+            data-lt-light="#FFEFDE"  data-lt-dark="#422B10"
+            data-hex-main-light="#FF8904" data-hex-main-dark="#EB8F26"
+            data-hex-lt-light="#FFEFDE" data-hex-lt-dark="#422B10">
+            <div class="sem-main"></div><div class="sem-lt"></div>
+            <div class="sem-info"><div class="sem-name">橙 · 警告</div><div class="sem-hex"></div></div>
+          </div>
+          <div class="sem-chip"
+            data-main-light="#00CBFF" data-main-dark="#43B3DE"
+            data-lt-light="#C4EDF7"  data-lt-dark="#11303C"
+            data-hex-main-light="#00CBFF" data-hex-main-dark="#43B3DE"
+            data-hex-lt-light="#C4EDF7" data-hex-lt-dark="#11303C">
+            <div class="sem-main"></div><div class="sem-lt"></div>
+            <div class="sem-info"><div class="sem-name">青 · 信息</div><div class="sem-hex"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 背景 & 分割线 -->
+      <div class="card">
+        <div class="card-lbl">背景色 & 分割线</div>
+        <div class="col-grid col-grid-4">
+          <div class="chip" data-light="#FFFFFF" data-dark="#1D1D1F" data-label-light="#FFFFFF" data-label-dark="#1D1D1F" data-name="背景-白色">
+            <div class="chip-sw chip-sw-divider"></div>
+            <div class="chip-info"><div class="chip-name">背景-白色</div><div class="chip-hex"></div></div>
+          </div>
+          <div class="chip" data-light="#F5F6FA" data-dark="#131314" data-label-light="#F5F6FA" data-label-dark="#131314" data-name="背景-浅灰">
+            <div class="chip-sw"></div>
+            <div class="chip-info"><div class="chip-name">背景-浅灰</div><div class="chip-hex"></div></div>
+          </div>
+          <div class="chip" data-light="#F5F7FC" data-dark="#2E2E31" data-label-light="#F5F7FC" data-label-dark="#2E2E31" data-name="输入框背景">
+            <div class="chip-sw"></div>
+            <div class="chip-info"><div class="chip-name">输入框背景</div><div class="chip-hex"></div></div>
+          </div>
+          <div class="chip" data-light="#E9EDF3" data-dark="#303033" data-label-light="#E9EDF3" data-label-dark="#303033" data-name="分割线">
+            <div class="chip-sw"></div>
+            <div class="chip-info"><div class="chip-name">分割线</div><div class="chip-hex"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 文字层级 -->
+      <div class="card">
+        <div class="card-lbl">文字层级 Text Hierarchy</div>
+        <div class="txh-grid">
+          <div class="txh-item"
+            data-color-light="rgba(0,0,0,0.85)" data-color-dark="rgba(255,255,255,0.85)"
+            data-label-light="rgba(0,0,0,0.85)" data-label-dark="rgba(255,255,255,0.85)">
+            <div class="txh-sample">主要文字</div>
+            <div class="txh-label">黑85 / 白85 · 主文字</div>
+            <div class="txh-val txh-val-display"></div>
+          </div>
+          <div class="txh-item"
+            data-color-light="rgba(0,0,0,0.65)" data-color-dark="rgba(255,255,255,0.65)"
+            data-label-light="rgba(0,0,0,0.65)" data-label-dark="rgba(255,255,255,0.65)">
+            <div class="txh-sample">次级文字</div>
+            <div class="txh-label">黑65 / 白65 · 次级</div>
+            <div class="txh-val txh-val-display"></div>
+          </div>
+          <div class="txh-item"
+            data-color-light="rgba(0,0,0,0.45)" data-color-dark="rgba(255,255,255,0.45)"
+            data-label-light="rgba(0,0,0,0.45)" data-label-dark="rgba(255,255,255,0.45)">
+            <div class="txh-sample">占位文字</div>
+            <div class="txh-label">黑45 / 白45 · 占位符</div>
+            <div class="txh-val txh-val-display"></div>
+          </div>
+          <div class="txh-item"
+            data-color-light="rgba(0,0,0,0.25)" data-color-dark="rgba(255,255,255,0.25)"
+            data-label-light="rgba(0,0,0,0.25)" data-label-dark="rgba(255,255,255,0.25)">
+            <div class="txh-sample">禁用文字</div>
+            <div class="txh-label">黑25 / 白25 · 禁用</div>
+            <div class="txh-val txh-val-display"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ RADIUS ══ -->
+    <section id="radius">
+      <div class="sec-head"><span class="sec-title">圆角</span><span class="sec-en">Border Radius</span></div>
+      <div class="sec-rule"></div>
+      <div class="card">
+        <div class="card-lbl">两套主题圆角规格完全一致</div>
+        <div class="rad-grid">
+          <div class="rad-item"><div class="rad-box" style="border-radius:4px;"></div><div class="rad-name">圆角4</div><div class="rad-val">4px · 角标</div></div>
+          <div class="rad-item"><div class="rad-box" style="border-radius:5px;"></div><div class="rad-name">图标圆角</div><div class="rad-val">5px · App图标</div></div>
+          <div class="rad-item"><div class="rad-box" style="border-radius:6px;"></div><div class="rad-name">圆角6</div><div class="rad-val">6px · 小卡片</div></div>
+          <div class="rad-item"><div class="rad-box" style="border-radius:8px;"></div><div class="rad-name">圆角8</div><div class="rad-val">8px · 按钮</div></div>
+          <div class="rad-item"><div class="rad-box" style="border-radius:12px;"></div><div class="rad-name">圆角12</div><div class="rad-val">12px · 中卡片</div></div>
+          <div class="rad-item"><div class="rad-box" style="border-radius:16px;"></div><div class="rad-name">圆角16</div><div class="rad-val">16px · 弹窗</div></div>
+          <div class="rad-item"><div class="rad-box" style="border-radius:20px;"></div><div class="rad-name">圆角20</div><div class="rad-val">20px · 底部弹层</div></div>
+          <div class="rad-item"><div class="rad-box" style="border-radius:24px;"></div><div class="rad-name">圆角24</div><div class="rad-val">24px · 超大容器</div></div>
+          <div class="rad-item"><div class="rad-box" style="border-radius:999px;width:52px;height:22px;margin-bottom:10px;"></div><div class="rad-name">椭圆</div><div class="rad-val">999px · 胶囊</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SPACING ══ -->
+    <section id="spacing">
+      <div class="sec-head"><span class="sec-title">间距</span><span class="sec-en">Spacing</span></div>
+      <div class="sec-rule"></div>
+      <div class="card">
+        <div class="card-lbl">基础单位 4px 模块制 · 两套主题完全一致</div>
+        <div class="sp-list">
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距0</div><div class="sp-px">0px</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:3px;"></div></div><div class="sp-use">无间距</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距2</div><div class="sp-px">2px</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:6px;"></div></div><div class="sp-use">极小</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距4</div><div class="sp-px">4px · XS</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:12px;"></div></div><div class="sp-use">基础单元</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距6</div><div class="sp-px">6px · XS+</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:18px;"></div></div><div class="sp-use">—</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距8</div><div class="sp-px">8px · SM</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:24px;"></div></div><div class="sp-use">—</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距12</div><div class="sp-px">12px · MD</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:36px;"></div></div><div class="sp-use">—</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距16</div><div class="sp-px">16px · LG</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:48px;"></div></div><div class="sp-use">常用内边距</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距20</div><div class="sp-px">20px · XL</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:60px;"></div></div><div class="sp-use">—</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距24</div><div class="sp-px">24px · 2XL</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:72px;"></div></div><div class="sp-use">—</div></div>
+          <div class="sp-row"><div class="sp-meta"><div class="sp-tok">间距32</div><div class="sp-px">32px · 3XL</div></div><div class="sp-bar-w"><div class="sp-bar" style="width:96px;"></div></div><div class="sp-use">大区块间距</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ TYPOGRAPHY ══ -->
+    <section id="typography">
+      <div class="sec-head"><span class="sec-title">字号</span><span class="sec-en">Font Size</span></div>
+      <div class="sec-rule"></div>
+      <div class="card">
+        <div class="card-lbl">两套主题字号规格完全一致</div>
+        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+        <table class="typ-tbl">
+          <tr><td class="tc-tok">字号10</td><td class="tc-px">10px</td><td class="tc-s"><span style="font-size:10px;">鱼泡直聘 Design System</span></td><td class="tc-u">极小标注、角标</td></tr>
+          <tr><td class="tc-tok">字号11</td><td class="tc-px">11px</td><td class="tc-s"><span style="font-size:11px;">鱼泡直聘 Design System</span></td><td class="tc-u">辅助信息</td></tr>
+          <tr><td class="tc-tok">字号12</td><td class="tc-px">12px</td><td class="tc-s"><span style="font-size:12px;">鱼泡直聘 Design System</span></td><td class="tc-u">说明文字、标签</td></tr>
+          <tr><td class="tc-tok">字号13</td><td class="tc-px">13px</td><td class="tc-s"><span style="font-size:13px;">鱼泡直聘 Design System</span></td><td class="tc-u">次要正文</td></tr>
+          <tr><td class="tc-tok">字号14</td><td class="tc-px">14px</td><td class="tc-s"><span style="font-size:14px;">鱼泡直聘 Design System</span></td><td class="tc-u">正文（常用）</td></tr>
+          <tr><td class="tc-tok">字号15</td><td class="tc-px">15px</td><td class="tc-s"><span style="font-size:15px;">鱼泡直聘 Design System</span></td><td class="tc-u">正文（稍大）</td></tr>
+          <tr><td class="tc-tok">字号16</td><td class="tc-px">16px</td><td class="tc-s"><span style="font-size:16px;">鱼泡直聘 Design System</span></td><td class="tc-u">副标题</td></tr>
+          <tr><td class="tc-tok">字号17</td><td class="tc-px">17px</td><td class="tc-s"><span style="font-size:17px;">鱼泡直聘 Design System</span></td><td class="tc-u">标题</td></tr>
+          <tr><td class="tc-tok">字号19</td><td class="tc-px">19px</td><td class="tc-s"><span style="font-size:19px;">鱼泡直聘 Design System</span></td><td class="tc-u">大标题</td></tr>
+          <tr><td class="tc-tok">字号21</td><td class="tc-px">21px</td><td class="tc-s"><span style="font-size:21px;">鱼泡直聘 Design System</span></td><td class="tc-u">页面主标题</td></tr>
+          <tr><td class="tc-tok">字号23</td><td class="tc-px">23px</td><td class="tc-s"><span style="font-size:23px;font-weight:700;">鱼泡直聘 Design System</span></td><td class="tc-u">突出数字</td></tr>
+          <tr><td class="tc-tok">字号25</td><td class="tc-px">25px</td><td class="tc-s"><span style="font-size:25px;font-weight:700;">鱼泡直聘 Design System</span></td><td class="tc-u">大展示数字</td></tr>
+          <tr><td class="tc-tok">字号27</td><td class="tc-px">27px</td><td class="tc-s"><span style="font-size:27px;font-weight:900;">鱼泡直聘 Design System</span></td><td class="tc-u">超大展示</td></tr>
+        </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ STROKE ══ -->
+    <section id="stroke">
+      <div class="sec-head"><span class="sec-title">描边</span><span class="sec-en">Stroke</span></div>
+      <div class="sec-rule"></div>
+      <div class="card">
+        <div class="card-lbl">两套主题描边规格完全一致</div>
+        <div class="stk-grid">
+          <div class="stk-item">
+            <div class="stk-vis"><div class="stk-inn" style="border-top:0.5px solid var(--border-mid);"></div></div>
+            <div class="stk-name">分割线粗细</div>
+            <div class="stk-val" style="margin-bottom:5px;">0.5px</div>
+            <div style="font-size:12px;color:var(--text-tertiary);">列表分割线，物理像素 1px</div>
+          </div>
+          <div class="stk-item">
+            <div class="stk-vis"><div class="stk-inn" style="border:1px solid var(--border-mid);"></div></div>
+            <div class="stk-name">描边粗细</div>
+            <div class="stk-val" style="margin-bottom:5px;">1px</div>
+            <div style="font-size:12px;color:var(--text-tertiary);">通用描边、卡片边框</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ OPACITY ══ -->
+    <section id="opacity">
+      <div class="sec-head"><span class="sec-title">透明度</span><span class="sec-en">Opacity</span></div>
+      <div class="sec-rule"></div>
+      <div class="card">
+        <div class="card-lbl">弹窗蒙层</div>
+        <div class="op-grid">
+          <!-- opacity cards use data attrs too -->
+          <div class="op-card">
+            <div class="op-sw" id="mask-sw" style="background:rgba(0,0,0,0.70);">
+              <span style="color:white;font-size:12px;font-weight:600;">弹窗蒙层</span>
+            </div>
+            <div class="op-info">
+              <div class="op-name">蒙层背景</div>
+              <div class="op-val" id="mask-val">rgba(0,0,0,0.70) · 亮色 70%</div>
+            </div>
+          </div>
+          <div class="op-card">
+            <div class="op-sw" style="background:var(--bg-subtle);" id="img-sw-wrap">
+              <div class="img-demo" id="img-demo-el" style="opacity:1.0;"></div>
+            </div>
+            <div class="op-info">
+              <div class="op-name">位图透明度</div>
+              <div class="op-val" id="img-val">100% · 亮色全不透明</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ STRINGS ══ -->
+    <section id="strings">
+      <div class="sec-head"><span class="sec-title">字符串常量</span><span class="sec-en">String Tokens</span></div>
+      <div class="sec-rule"></div>
+      <div class="card">
+        <div class="card-lbl">用于原型演示中的数据填充 · 两套主题内容一致</div>
+        <table class="str-tbl">
+          <thead><tr><th>Token 名称</th><th>示例值</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>项目名称</td><td class="mono">鱼泡直聘</td><td style="color:var(--text-tertiary);font-size:12px;">—</td></tr>
+            <tr><td>电话号码</td><td class="mono">15888888888</td><td style="color:var(--text-tertiary);font-size:12px;">完整电话</td></tr>
+            <tr><td>电话号码-隐藏</td><td class="mono">158****8888</td><td style="color:var(--text-tertiary);font-size:12px;">脱敏展示</td></tr>
+            <tr><td>日期-点分隔</td><td class="mono">2025.01.01</td><td style="color:var(--text-tertiary);font-size:12px;">点号分隔</td></tr>
+            <tr><td>日期-单位分隔</td><td class="mono">2025年1月1日</td><td style="color:var(--text-tertiary);font-size:12px;">中文单位</td></tr>
+            <tr><td>时间-冒号分隔</td><td class="mono">12:59:01</td><td style="color:var(--text-tertiary);font-size:12px;">冒号分隔</td></tr>
+            <tr><td>时间-单位分隔</td><td class="mono">12时59分1秒</td><td style="color:var(--text-tertiary);font-size:12px;">中文单位</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══ SUMMARY ══ -->
+    <section id="summary">
+      <div class="sec-head"><span class="sec-title">主题摘要</span><span class="sec-en">Theme Summary</span></div>
+      <div class="sec-rule"></div>
+      <div class="sum-grid">
+        <div class="sum-card sum-light" id="sum-light">
+          <div class="sum-lbl">☀ 鱼泡直聘 · 亮色</div>
+          <div class="sum-row"><span class="sum-key">主背景</span><span class="sum-val"><span class="sw" style="background:#FFF;border:1px solid #ccc;"></span>#FFFFFF</span></div>
+          <div class="sum-row"><span class="sum-key">次级背景</span><span class="sum-val"><span class="sw" style="background:#F5F6FA;"></span>#F5F6FA</span></div>
+          <div class="sum-row"><span class="sum-key">主色</span><span class="sum-val"><span class="sw" style="background:#0092FF;"></span>#0092FF</span></div>
+          <div class="sum-row"><span class="sum-key">主文字</span><span class="sum-val">rgba(0,0,0,0.85)</span></div>
+          <div class="sum-row"><span class="sum-key">分割线</span><span class="sum-val"><span class="sw" style="background:#E9EDF3;border:1px solid #ddd;"></span>#E9EDF3</span></div>
+          <div class="sum-row"><span class="sum-key">蒙层透明度</span><span class="sum-val">70%</span></div>
+          <div class="sum-row"><span class="sum-key">位图透明度</span><span class="sum-val">100%</span></div>
+          <div class="sum-row"><span class="sum-key">圆角/间距/字号</span><span class="sum-val">两套主题一致 ✓</span></div>
+        </div>
+        <div class="sum-card sum-dark" id="sum-dark">
+          <div class="sum-lbl">🌙 鱼泡暗夜 · 暗色</div>
+          <div class="sum-row"><span class="sum-key">主背景</span><span class="sum-val"><span class="sw" style="background:#1D1D1F;"></span>#1D1D1F</span></div>
+          <div class="sum-row"><span class="sum-key">次级背景</span><span class="sum-val"><span class="sw" style="background:#131314;"></span>#131314</span></div>
+          <div class="sum-row"><span class="sum-key">主色</span><span class="sum-val"><span class="sw" style="background:#149AFF;"></span>#149AFF</span></div>
+          <div class="sum-row"><span class="sum-key">主文字</span><span class="sum-val">rgba(255,255,255,0.85)</span></div>
+          <div class="sum-row"><span class="sum-key">分割线</span><span class="sum-val"><span class="sw" style="background:#303033;"></span>#303033</span></div>
+          <div class="sum-row"><span class="sum-key">蒙层透明度</span><span class="sum-val">80%（更深）</span></div>
+          <div class="sum-row"><span class="sum-key">位图透明度</span><span class="sum-val">90%（融合背景）</span></div>
+          <div class="sum-row"><span class="sum-key">圆角/间距/字号</span><span class="sum-val">两套主题一致 ✓</span></div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+</main>
+
+<script>
+/* ════════════════════════════════════
+   THEME ENGINE
+════════════════════════════════════ */
+let currentTheme = 'light';
+
+function setTheme(t) {
+  currentTheme = t;
+
+  // Page-level theme (CSS vars, bg, text)
+  document.documentElement.setAttribute('data-theme', t);
+
+  // Buttons
+  document.getElementById('btn-light').classList.toggle('active', t === 'light');
+  document.getElementById('btn-dark').classList.toggle('active', t === 'dark');
+
+  // Update all dynamic color chips
+  updateChips(t);
+  updateSemanticChips(t);
+  updateTextHierarchy(t);
+  updateOpacity(t);
+  updateSummaryCards(t);
+
+  try { localStorage.setItem('ds-theme', t); } catch(e) {}
+}
+
+/* ── plain color chips ── */
+function updateChips(t) {
+  document.querySelectorAll('.chip').forEach(chip => {
+    const sw   = chip.querySelector('.chip-sw');
+    const hex  = chip.querySelector('.chip-hex');
+    const color = chip.dataset[t];       // data-light or data-dark
+    const label = chip.dataset['label' + t.charAt(0).toUpperCase() + t.slice(1)]; // data-labelLight / data-labelDark
+    if (sw && color) sw.style.background = color;
+    if (hex && label) hex.textContent = label;
+  });
+}
+
+/* ── semantic chips ── */
+function updateSemanticChips(t) {
+  document.querySelectorAll('.sem-chip').forEach(chip => {
+    const mainEl = chip.querySelector('.sem-main');
+    const ltEl   = chip.querySelector('.sem-lt');
+    const hexEl  = chip.querySelector('.sem-hex');
+
+    const mainColor = chip.dataset['main' + cap(t)];
+    const ltColor   = chip.dataset['lt'   + cap(t)];
+    const hexMain   = chip.dataset['hexMain' + cap(t)];
+    const hexLt     = chip.dataset['hexLt'   + cap(t)];
+
+    if (mainEl && mainColor) mainEl.style.background = mainColor;
+    if (ltEl   && ltColor)   ltEl.style.background   = ltColor;
+    if (hexEl)               hexEl.textContent = hexMain + ' / ' + hexLt;
+  });
+}
+
+/* ── text hierarchy ── */
+function updateTextHierarchy(t) {
+  document.querySelectorAll('.txh-item').forEach(item => {
+    const sample = item.querySelector('.txh-sample');
+    const valEl  = item.querySelector('.txh-val-display');
+    const color  = item.dataset['color' + cap(t)];
+    const label  = item.dataset['label' + cap(t)];
+    if (sample && color) sample.style.color = color;
+    if (valEl  && label) valEl.textContent  = label;
+  });
+}
+
+/* ── opacity section ── */
+function updateOpacity(t) {
+  const maskSw  = document.getElementById('mask-sw');
+  const maskVal = document.getElementById('mask-val');
+  const imgDemo = document.getElementById('img-demo-el');
+  const imgVal  = document.getElementById('img-val');
+
+  if (t === 'light') {
+    if (maskSw)  maskSw.style.background = 'rgba(0,0,0,0.70)';
+    if (maskVal) maskVal.textContent = 'rgba(0,0,0,0.70) · 亮色 70%';
+    if (imgDemo) imgDemo.style.opacity = '1.0';
+    if (imgVal)  imgVal.textContent = '100% · 亮色全不透明';
+  } else {
+    if (maskSw)  maskSw.style.background = 'rgba(0,0,0,0.80)';
+    if (maskVal) maskVal.textContent = 'rgba(0,0,0,0.80) · 暗夜 80%';
+    if (imgDemo) imgDemo.style.opacity = '0.9';
+    if (imgVal)  imgVal.textContent = '90% · 暗夜略降融合背景';
+  }
+}
+
+/* ── summary cards: highlight active, dim inactive ── */
+function updateSummaryCards(t) {
+  const light = document.getElementById('sum-light');
+  const dark  = document.getElementById('sum-dark');
+  if (t === 'light') {
+    light.classList.remove('dim');
+    dark.classList.add('dim');
+  } else {
+    dark.classList.remove('dim');
+    light.classList.add('dim');
+  }
+}
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+/* ── Scrollspy ── */
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const a = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+sections.forEach(s => io.observe(s));
+
+navItems.forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault();
+    const id = item.getAttribute('href').slice(1);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+/* ══════════════════════════════════════
+   COPY ON CLICK
+══════════════════════════════════════ */
+
+function doCopy(text) {
+  return new Promise((resolve) => {
+    try {
+      navigator.clipboard.writeText(text).then(resolve).catch(() => {
+        fallbackCopy(text); resolve();
+      });
+    } catch(e) { fallbackCopy(text); resolve(); }
+  });
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('copy-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function copyText(text) {
+  if (!text || !text.trim()) return;
+  const trimmed = text.trim();
+  doCopy(trimmed).then(() => {
+    const display = trimmed.length > 28 ? trimmed.slice(0, 26) + '…' : trimmed;
+    showToast(display);
+  });
+}
+
+// ── Color chips ──
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const val = chip.dataset['label' + cap(currentTheme)] || chip.querySelector('.chip-hex')?.textContent;
+    if (val) copyText(val.trim());
+  });
+});
+
+// ── Semantic chips ──
+document.querySelectorAll('.sem-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const main = chip.dataset['hexMain' + cap(currentTheme)] || '';
+    const lt   = chip.dataset['hexLt'   + cap(currentTheme)] || '';
+    const val  = main + (lt ? ' / ' + lt : '');
+    copyText(val);
+  });
+});
+
+// ── Text hierarchy ──
+document.querySelectorAll('.txh-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const val = item.dataset['label' + cap(currentTheme)];
+    if (val) copyText(val);
+  });
+});
+
+// ── Radius items ──
+document.querySelectorAll('.rad-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const val = item.querySelector('.rad-val')?.textContent?.split('·')[0]?.trim();
+    if (val) copyText(val);
+  });
+});
+
+// ── Spacing rows ──
+document.querySelectorAll('.sp-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const px = row.querySelector('.sp-px')?.textContent?.split('·')[0]?.trim();
+    if (px) copyText(px);
+  });
+});
+
+// ── Typography font-size cells ──
+document.querySelectorAll('.typ-tbl td.tc-px').forEach(td => {
+  td.addEventListener('click', (e) => {
+    e.stopPropagation();
+    copyText(td.textContent.trim());
+  });
+});
+
+// ── String token cells ──
+document.querySelectorAll('.str-tbl td.mono').forEach(td => {
+  td.addEventListener('click', (e) => {
+    e.stopPropagation();
+    copyText(td.textContent.trim());
+  });
+});
+
+// ── Summary rows ──
+document.querySelectorAll('.sum-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const valEl = row.querySelector('.sum-val');
+    const text = valEl ? valEl.textContent.trim() : '';
+    if (text) copyText(text);
+  });
+});
+
+/* ══════════════════════════════════════
+   EXPORT DOCUMENTS
+══════════════════════════════════════ */
+
+// All token data
+const TOKENS = {
+  colors: {
+    light: {
+      'primary':         '#0092FF',
+      'primary-light':   '#E0F3FF',
+      'primary-disabled':'#99D3FF',
+      'brand-blue':      '#1A83FF',
+      'brand-yellow':    '#FECF05',
+      'bg-white':        '#FFFFFF',
+      'bg-gray':         '#F5F6FA',
+      'bg-input':        '#F5F7FC',
+      'divider':         '#E9EDF3',
+      'red':             '#E8362E',
+      'red-light':       '#FFEBEC',
+      'green':           '#06B578',
+      'green-light':     '#DFF2EC',
+      'orange':          '#FF8904',
+      'orange-light':    '#FFEFDE',
+      'cyan':            '#00CBFF',
+      'cyan-light':      '#C4EDF7',
+      'text-primary':    'rgba(0,0,0,0.85)',
+      'text-secondary':  'rgba(0,0,0,0.65)',
+      'text-placeholder':'rgba(0,0,0,0.45)',
+      'text-disabled':   'rgba(0,0,0,0.25)',
+      'mask':            'rgba(0,0,0,0.70)',
+    },
+    dark: {
+      'primary':         '#149AFF',
+      'primary-light':   '#1D2A3F',
+      'primary-disabled':'#2B394F',
+      'brand-blue':      '#1A83FF',
+      'brand-yellow':    '#FECF05',
+      'bg-white':        '#1D1D1F',
+      'bg-gray':         '#131314',
+      'bg-input':        '#2E2E31',
+      'divider':         '#303033',
+      'red':             '#FF5F5F',
+      'red-light':       '#3F2727',
+      'green':           '#44B138',
+      'green-light':     '#1E2C1C',
+      'orange':          '#EB8F26',
+      'orange-light':    '#422B10',
+      'cyan':            '#43B3DE',
+      'cyan-light':      '#11303C',
+      'text-primary':    'rgba(255,255,255,0.85)',
+      'text-secondary':  'rgba(255,255,255,0.65)',
+      'text-placeholder':'rgba(255,255,255,0.45)',
+      'text-disabled':   'rgba(255,255,255,0.25)',
+      'mask':            'rgba(0,0,0,0.80)',
+    }
+  },
+  radius: [
+    { name: 'radius-4',  value: '4px',   desc: '小标签、角标' },
+    { name: 'radius-icon', value: '5px', desc: 'App图标' },
+    { name: 'radius-6',  value: '6px',   desc: '小卡片' },
+    { name: 'radius-8',  value: '8px',   desc: '常规卡片、按钮' },
+    { name: 'radius-12', value: '12px',  desc: '中等卡片' },
+    { name: 'radius-16', value: '16px',  desc: '大卡片、弹窗' },
+    { name: 'radius-20', value: '20px',  desc: '底部弹出层' },
+    { name: 'radius-24', value: '24px',  desc: '超大圆角容器' },
+    { name: 'radius-pill', value: '999px', desc: '胶囊形' },
+  ],
+  spacing: [
+    { name: 'spacing-0',  value: '0px',  label: '无间距' },
+    { name: 'spacing-2',  value: '2px',  label: '极小' },
+    { name: 'spacing-4',  value: '4px',  label: 'XS — 基础单元' },
+    { name: 'spacing-6',  value: '6px',  label: 'XS+' },
+    { name: 'spacing-8',  value: '8px',  label: 'SM' },
+    { name: 'spacing-12', value: '12px', label: 'MD' },
+    { name: 'spacing-16', value: '16px', label: 'LG — 常用内边距' },
+    { name: 'spacing-20', value: '20px', label: 'XL' },
+    { name: 'spacing-24', value: '24px', label: '2XL' },
+    { name: 'spacing-32', value: '32px', label: '3XL — 大区块' },
+  ],
+  fontSizes: [
+    { name: 'font-10', value: '10', desc: '极小标注、角标' },
+    { name: 'font-11', value: '11', desc: '辅助信息' },
+    { name: 'font-12', value: '12', desc: '说明文字、标签' },
+    { name: 'font-13', value: '13', desc: '次要正文' },
+    { name: 'font-14', value: '14', desc: '正文（常用）' },
+    { name: 'font-15', value: '15', desc: '正文（稍大）' },
+    { name: 'font-16', value: '16', desc: '副标题' },
+    { name: 'font-17', value: '17', desc: '标题' },
+    { name: 'font-19', value: '19', desc: '大标题' },
+    { name: 'font-21', value: '21', desc: '页面主标题' },
+    { name: 'font-23', value: '23', desc: '突出数字' },
+    { name: 'font-25', value: '25', desc: '大展示数字' },
+    { name: 'font-27', value: '27', desc: '超大展示数字' },
+  ],
+  strings: [
+    { name: 'app-name',     value: '鱼泡直聘' },
+    { name: 'phone-full',   value: '15888888888' },
+    { name: 'phone-masked', value: '158****8888' },
+    { name: 'date-dot',     value: '2025.01.01' },
+    { name: 'date-cn',      value: '2025年1月1日' },
+    { name: 'time-colon',   value: '12:59:01' },
+    { name: 'time-cn',      value: '12时59分1秒' },
+  ]
+};
+
+// Helper: hex to UIColor components
+function hexToUIColor(hex) {
+  const h = hex.replace('#', '');
+  if (h.length !== 6) return null;
+  const r = (parseInt(h.slice(0,2),16)/255).toFixed(3);
+  const g = (parseInt(h.slice(2,4),16)/255).toFixed(3);
+  const b = (parseInt(h.slice(4,6),16)/255).toFixed(3);
+  return { r, g, b };
+}
+
+// Helper: hex to Android ARGB
+function hexToAndroidARGB(hex) {
+  const h = hex.replace('#','');
+  if (h.length !== 6) return '#FF' + h.toUpperCase();
+  return '#FF' + h.toUpperCase();
+}
+
+// camelCase token name for Swift
+function toCamel(str) {
+  return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+}
+
+function rgbaToUIColor(rgba) {
+  // e.g. rgba(0,0,0,0.85)
+  const m = rgba.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+  if (!m) return null;
+  const r=(+m[1]/255).toFixed(3), g=(+m[2]/255).toFixed(3), b=(+m[3]/255).toFixed(3), a=m[4]||'1';
+  return { r, g, b, a: parseFloat(a).toFixed(3) };
+}
+
+function rgbaToAndroid(rgba) {
+  const m = rgba.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+  if (!m) return '#FF000000';
+  const a = Math.round((parseFloat(m[4]||'1'))*255).toString(16).padStart(2,'0').toUpperCase();
+  const r = parseInt(m[1]).toString(16).padStart(2,'0').toUpperCase();
+  const g = parseInt(m[2]).toString(16).padStart(2,'0').toUpperCase();
+  const b = parseInt(m[3]).toString(16).padStart(2,'0').toUpperCase();
+  return '#' + a + r + g + b;
+}
+
+function downloadFile(filename, text) {
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('已下载 ' + filename);
+}
+
+function exportDoc(type) {
+  if (type === 'ios')     return exportIOS();
+  if (type === 'android') return exportAndroid();
+  if (type === 'flutter') return exportFlutter();
+  if (type === 'md')      return exportMarkdown();
+}
+
+/* ── iOS Swift ── */
+function exportIOS() {
+  const lc = TOKENS.colors.light;
+  const dc = TOKENS.colors.dark;
+
+  let lines = [];
+  lines.push('// 鱼泡直聘 Design Tokens — iOS Swift');
+  lines.push('// Generated: ' + new Date().toISOString().slice(0,10));
+  lines.push('// Usage: UIColor.yp.primary  /  Color.yp.primary (SwiftUI)');
+  lines.push('');
+  lines.push('import UIKit');
+  lines.push('import SwiftUI');
+  lines.push('');
+  lines.push('// MARK: - Color Extension');
+  lines.push('extension UIColor {');
+  lines.push('  enum yp {');
+
+  function swiftColor(lightHex, darkHex, name) {
+    const ln = lightHex.startsWith('rgba') ? rgbaToUIColor(lightHex) : hexToUIColor(lightHex);
+    const dn = darkHex.startsWith('rgba')  ? rgbaToUIColor(darkHex)  : hexToUIColor(darkHex);
+    if (!ln || !dn) {
+      lines.push(`    /// ${name}`);
+      lines.push(`    static let ${toCamel(name)} = UIColor { t in`);
+      lines.push(`      t.userInterfaceStyle == .dark`);
+      lines.push(`        ? UIColor(red: 0, green: 0, blue: 0, alpha: 1) // TODO: ${darkHex}`);
+      lines.push(`        : UIColor(red: 0, green: 0, blue: 0, alpha: 1) // TODO: ${lightHex}`);
+      lines.push('    }');
+      return;
+    }
+    const la = ln.a || '1.000', da = dn.a || '1.000';
+    lines.push(`    /// Light: ${lightHex}  Dark: ${darkHex}`);
+    lines.push(`    static let ${toCamel(name)} = UIColor { trait in`);
+    lines.push(`      trait.userInterfaceStyle == .dark`);
+    lines.push(`        ? UIColor(red: ${dn.r}, green: ${dn.g}, blue: ${dn.b}, alpha: ${da})`);
+    lines.push(`        : UIColor(red: ${ln.r}, green: ${ln.g}, blue: ${ln.b}, alpha: ${la})`);
+    lines.push('    }');
+  }
+
+  lines.push('    // MARK: Primary');
+  swiftColor(lc.primary, dc.primary, 'primary');
+  swiftColor(lc['primary-light'], dc['primary-light'], 'primary-light');
+  swiftColor(lc['primary-disabled'], dc['primary-disabled'], 'primary-disabled');
+  lines.push('    // MARK: Brand');
+  swiftColor(lc['brand-blue'], dc['brand-blue'], 'brand-blue');
+  swiftColor(lc['brand-yellow'], dc['brand-yellow'], 'brand-yellow');
+  lines.push('    // MARK: Background');
+  swiftColor(lc['bg-white'], dc['bg-white'], 'bg-white');
+  swiftColor(lc['bg-gray'], dc['bg-gray'], 'bg-gray');
+  swiftColor(lc['bg-input'], dc['bg-input'], 'bg-input');
+  swiftColor(lc.divider, dc.divider, 'divider');
+  lines.push('    // MARK: Semantic');
+  swiftColor(lc.red, dc.red, 'red');
+  swiftColor(lc['red-light'], dc['red-light'], 'red-light');
+  swiftColor(lc.green, dc.green, 'green');
+  swiftColor(lc['green-light'], dc['green-light'], 'green-light');
+  swiftColor(lc.orange, dc.orange, 'orange');
+  swiftColor(lc['orange-light'], dc['orange-light'], 'orange-light');
+  swiftColor(lc.cyan, dc.cyan, 'cyan');
+  swiftColor(lc['cyan-light'], dc['cyan-light'], 'cyan-light');
+  lines.push('    // MARK: Text');
+  swiftColor(lc['text-primary'], dc['text-primary'], 'text-primary');
+  swiftColor(lc['text-secondary'], dc['text-secondary'], 'text-secondary');
+  swiftColor(lc['text-placeholder'], dc['text-placeholder'], 'text-placeholder');
+  swiftColor(lc['text-disabled'], dc['text-disabled'], 'text-disabled');
+  lines.push('  }');
+  lines.push('}');
+  lines.push('');
+  lines.push('// MARK: - Spacing');
+  lines.push('enum YPSpacing {');
+  TOKENS.spacing.forEach(s => {
+    lines.push(`  static let ${toCamel(s.name)}: CGFloat = ${parseFloat(s.value)} // ${s.label}`);
+  });
+  lines.push('}');
+  lines.push('');
+  lines.push('// MARK: - Corner Radius');
+  lines.push('enum YPRadius {');
+  TOKENS.radius.forEach(r => {
+    const v = parseFloat(r.value);
+    lines.push(`  static let ${toCamel(r.name)}: CGFloat = ${v === 999 ? '9999' : v} // ${r.desc}`);
+  });
+  lines.push('}');
+  lines.push('');
+  lines.push('// MARK: - Font Size');
+  lines.push('enum YPFontSize {');
+  TOKENS.fontSizes.forEach(f => {
+    lines.push(`  static let ${toCamel(f.name)}: CGFloat = ${f.value} // ${f.desc}`);
+  });
+  lines.push('}');
+
+  downloadFile('YPDesignTokens.swift', lines.join('\n'));
+}
+
+/* ── Android XML ── */
+function exportAndroid() {
+  const lc = TOKENS.colors.light;
+  const dc = TOKENS.colors.dark;
+
+  const px = v => v.replace('px','').trim() + 'dp';
+  const sp = v => v.replace('px','').trim() + 'sp';
+
+  let light = [];
+  let dark  = [];
+  const header = (lines, label) => {
+    lines.push('<?xml version="1.0" encoding="utf-8"?>');
+    lines.push(`<!-- 鱼泡直聘 Design Tokens — Android ${label} -->`);
+    lines.push(`<!-- Generated: ${new Date().toISOString().slice(0,10)} -->`);
+    lines.push('<resources>');
+    lines.push('');
+  };
+  header(light, 'Light Theme (res/values/colors.xml)');
+  header(dark,  'Dark Theme  (res/values-night/colors.xml)');
+
+  function addColor(name, lhex, dhex) {
+    const lval = lhex.startsWith('rgba') ? rgbaToAndroid(lhex) : hexToAndroidARGB(lhex);
+    const dval = dhex.startsWith('rgba') ? rgbaToAndroid(dhex) : hexToAndroidARGB(dhex);
+    const xmlName = name.replace(/-/g,'_');
+    light.push(`  <color name="yp_${xmlName}">${lval}</color>`);
+    dark.push( `  <color name="yp_${xmlName}">${dval}</color>`);
+  }
+
+  light.push('  <!-- Primary -->'); dark.push('  <!-- Primary -->');
+  addColor('primary',          lc.primary,          dc.primary);
+  addColor('primary_light',    lc['primary-light'],  dc['primary-light']);
+  addColor('primary_disabled', lc['primary-disabled'],dc['primary-disabled']);
+  light.push('  <!-- Brand -->'); dark.push('  <!-- Brand -->');
+  addColor('brand_blue',   lc['brand-blue'],   dc['brand-blue']);
+  addColor('brand_yellow', lc['brand-yellow'], dc['brand-yellow']);
+  light.push('  <!-- Background -->'); dark.push('  <!-- Background -->');
+  addColor('bg_white', lc['bg-white'], dc['bg-white']);
+  addColor('bg_gray',  lc['bg-gray'],  dc['bg-gray']);
+  addColor('bg_input', lc['bg-input'], dc['bg-input']);
+  addColor('divider',  lc.divider,     dc.divider);
+  light.push('  <!-- Semantic -->'); dark.push('  <!-- Semantic -->');
+  ['red','red-light','green','green-light','orange','orange-light','cyan','cyan-light'].forEach(k => {
+    addColor(k, lc[k], dc[k]);
+  });
+  light.push('  <!-- Text -->'); dark.push('  <!-- Text -->');
+  ['text-primary','text-secondary','text-placeholder','text-disabled'].forEach(k => {
+    addColor(k, lc[k], dc[k]);
+  });
+  light.push(''); dark.push('');
+  light.push('</resources>'); dark.push('</resources>');
+
+  // dimens.xml
+  let dimens = [];
+  dimens.push('<?xml version="1.0" encoding="utf-8"?>');
+  dimens.push('<!-- 鱼泡直聘 Design Tokens — Android Dimens (res/values/dimens.xml) -->');
+  dimens.push(`<!-- Generated: ${new Date().toISOString().slice(0,10)} -->`);
+  dimens.push('<resources>');
+  dimens.push('  <!-- Spacing -->');
+  TOKENS.spacing.forEach(s => {
+    dimens.push(`  <dimen name="yp_${s.name.replace(/-/g,'_')}">${px(s.value)}</dimen> <!-- ${s.label} -->`);
+  });
+  dimens.push('  <!-- Corner Radius -->');
+  TOKENS.radius.forEach(r => {
+    const v = r.value === '999px' ? '500dp' : px(r.value);
+    dimens.push(`  <dimen name="yp_${r.name.replace(/-/g,'_')}">${v}</dimen> <!-- ${r.desc} -->`);
+  });
+  dimens.push('  <!-- Font Size -->');
+  TOKENS.fontSizes.forEach(f => {
+    dimens.push(`  <dimen name="yp_${f.name.replace(/-/g,'_')}">${f.value}sp</dimen> <!-- ${f.desc} -->`);
+  });
+  dimens.push('</resources>');
+
+  // Bundle as single file with dividers
+  const combined = [
+    light.join('\n'),
+    '\n\n' + '='.repeat(60) + '\n<!-- res/values-night/colors.xml -->\n' + '='.repeat(60) + '\n\n',
+    dark.join('\n'),
+    '\n\n' + '='.repeat(60) + '\n<!-- res/values/dimens.xml -->\n' + '='.repeat(60) + '\n\n',
+    dimens.join('\n')
+  ].join('');
+
+  downloadFile('yupao_design_tokens_android.xml', combined);
+}
+
+/* ── Markdown ── */
+function exportMarkdown() {
+  const lc = TOKENS.colors.light;
+  const dc = TOKENS.colors.dark;
+  const lines = [];
+
+  lines.push('# 鱼泡直聘 · 设计规范 Design Tokens');
+  lines.push('');
+  lines.push(`> 生成时间：${new Date().toISOString().slice(0,10)}  `);
+  lines.push('> 来源：Figma 变量库 · 包含亮色「鱼泡直聘」与暗夜「鱼泡暗夜」两套主题');
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+
+  // Colors
+  lines.push('## 颜色 Color');
+  lines.push('');
+  lines.push('### 主色系 Primary');
+  lines.push('');
+  lines.push('| Token | 亮色 | 暗夜 |');
+  lines.push('|---|---|---|');
+  lines.push(`| 主色 | \`${lc.primary}\` | \`${dc.primary}\` |`);
+  lines.push(`| 主色浅 | \`${lc['primary-light']}\` | \`${dc['primary-light']}\` |`);
+  lines.push(`| 主色禁用 | \`${lc['primary-disabled']}\` | \`${dc['primary-disabled']}\` |`);
+  lines.push('');
+  lines.push('### 品牌色 Brand');
+  lines.push('');
+  lines.push('| Token | 值 | 说明 |');
+  lines.push('|---|---|---|');
+  lines.push(`| 品牌色蓝 | \`${lc['brand-blue']}\` | 两套主题一致 |`);
+  lines.push(`| 品牌色黄 | \`${lc['brand-yellow']}\` | 两套主题一致 |`);
+  lines.push('');
+  lines.push('### 背景色');
+  lines.push('');
+  lines.push('| Token | 亮色 | 暗夜 |');
+  lines.push('|---|---|---|');
+  lines.push(`| 背景-白色 | \`${lc['bg-white']}\` | \`${dc['bg-white']}\` |`);
+  lines.push(`| 背景-浅灰 | \`${lc['bg-gray']}\` | \`${dc['bg-gray']}\` |`);
+  lines.push(`| 输入框背景 | \`${lc['bg-input']}\` | \`${dc['bg-input']}\` |`);
+  lines.push(`| 分割线 | \`${lc.divider}\` | \`${dc.divider}\` |`);
+  lines.push('');
+  lines.push('### 语义色 Semantic');
+  lines.push('');
+  lines.push('| Token | 亮色主色 | 亮色浅色 | 暗夜主色 | 暗夜浅色 | 用途 |');
+  lines.push('|---|---|---|---|---|---|');
+  lines.push(`| 红 | \`${lc.red}\` | \`${lc['red-light']}\` | \`${dc.red}\` | \`${dc['red-light']}\` | 错误/危险 |`);
+  lines.push(`| 绿 | \`${lc.green}\` | \`${lc['green-light']}\` | \`${dc.green}\` | \`${dc['green-light']}\` | 成功/正向 |`);
+  lines.push(`| 橙 | \`${lc.orange}\` | \`${lc['orange-light']}\` | \`${dc.orange}\` | \`${dc['orange-light']}\` | 警告 |`);
+  lines.push(`| 青 | \`${lc.cyan}\` | \`${lc['cyan-light']}\` | \`${dc.cyan}\` | \`${dc['cyan-light']}\` | 信息/辅助 |`);
+  lines.push('');
+  lines.push('### 文字层级 Text');
+  lines.push('');
+  lines.push('| Token | 亮色 | 暗夜 | 用途 |');
+  lines.push('|---|---|---|---|');
+  lines.push(`| text-primary | \`${lc['text-primary']}\` | \`${dc['text-primary']}\` | 主文字 |`);
+  lines.push(`| text-secondary | \`${lc['text-secondary']}\` | \`${dc['text-secondary']}\` | 次级文字 |`);
+  lines.push(`| text-placeholder | \`${lc['text-placeholder']}\` | \`${dc['text-placeholder']}\` | 占位符 |`);
+  lines.push(`| text-disabled | \`${lc['text-disabled']}\` | \`${dc['text-disabled']}\` | 禁用 |`);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+
+  // Radius
+  lines.push('## 圆角 Border Radius');
+  lines.push('');
+  lines.push('> 两套主题圆角规格完全一致');
+  lines.push('');
+  lines.push('| Token | 值 | 典型场景 |');
+  lines.push('|---|---|---|');
+  TOKENS.radius.forEach(r => {
+    lines.push(`| ${r.name} | \`${r.value}\` | ${r.desc} |`);
+  });
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+
+  // Spacing
+  lines.push('## 间距 Spacing');
+  lines.push('');
+  lines.push('> 基础单位 4px 模块制，两套主题完全一致');
+  lines.push('');
+  lines.push('| Token | 值 | 说明 |');
+  lines.push('|---|---|---|');
+  TOKENS.spacing.forEach(s => {
+    lines.push(`| ${s.name} | \`${s.value}\` | ${s.label} |`);
+  });
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+
+  // Font Size
+  lines.push('## 字号 Font Size');
+  lines.push('');
+  lines.push('> 两套主题字号规格完全一致');
+  lines.push('');
+  lines.push('| Token | 值 | 用途 |');
+  lines.push('|---|---|---|');
+  TOKENS.fontSizes.forEach(f => {
+    lines.push(`| ${f.name} | \`${f.value}px\` | ${f.desc} |`);
+  });
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+
+  // Stroke & Opacity
+  lines.push('## 描边 Stroke');
+  lines.push('');
+  lines.push('| Token | 值 | 说明 |');
+  lines.push('|---|---|---|');
+  lines.push('| 分割线粗细 | `0.5px` | 列表分割线，物理像素 1px |');
+  lines.push('| 描边粗细 | `1px` | 通用描边、卡片边框 |');
+  lines.push('');
+  lines.push('## 透明度 Opacity');
+  lines.push('');
+  lines.push('| Token | 亮色 | 暗夜 |');
+  lines.push('|---|---|---|');
+  lines.push('| 弹窗蒙层 | `rgba(0,0,0,0.70)` | `rgba(0,0,0,0.80)` |');
+  lines.push('| 位图透明度 | `100%` | `90%` |');
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+
+  // Strings
+  lines.push('## 字符串常量 String Tokens');
+  lines.push('');
+  lines.push('| Token | 示例值 |');
+  lines.push('|---|---|');
+  TOKENS.strings.forEach(s => {
+    lines.push(`| ${s.name} | \`${s.value}\` |`);
+  });
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push('*文档由 鱼泡直聘 Design System 自动生成*');
+
+  downloadFile('鱼泡直聘_设计规范.md', lines.join('\n'));
+}
+
+
+/* ── Flutter Dart ── */
+function exportFlutter() {
+  const lc = TOKENS.colors.light;
+  const dc = TOKENS.colors.dark;
+  const lines = [];
+  const date = new Date().toISOString().slice(0, 10);
+
+  // ---- hex to Color(0xFFRRGGBB) ----
+  function hexToFlutter(hex) {
+    const h = hex.replace('#', '');
+    if (h.length !== 6) return 'Color(0xFF000000)';
+    return 'Color(0xFF' + h.toUpperCase() + ')';
+  }
+
+  // ---- rgba(...) to Color.fromRGBO / Color.fromARGB ----
+  function rgbaToFlutter(rgba) {
+    const m = rgba.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+    if (!m) return 'Color(0xFF000000)';
+    const r = +m[1], g = +m[2], b = +m[3];
+    const a = m[4] !== undefined ? parseFloat(m[4]) : 1;
+    if (a === 1) return `Color.fromARGB(255, ${r}, ${g}, ${b})`;
+    return `Color.fromRGBO(${r}, ${g}, ${b}, ${a})`;
+  }
+
+  function colorVal(hex) {
+    return hex.startsWith('rgba') ? rgbaToFlutter(hex) : hexToFlutter(hex);
+  }
+
+  // camelCase from kebab
+  function cam(s) { return s.replace(/-([a-z])/g, (_, c) => c.toUpperCase()); }
+
+  lines.push('// 鱼泡直聘 Design Tokens — Flutter Dart');
+  lines.push('// Generated: ' + date);
+  lines.push('// Usage:');
+  lines.push('//   YPColors.primary(context)   → adaptive light/dark Color');
+  lines.push('//   YPColors.primaryLight       → light-mode static Color');
+  lines.push('//   YPSpacing.lg                → 16.0');
+  lines.push('//   YPRadius.r12                → 12.0');
+  lines.push('//   YPFontSize.f14              → 14.0');
+  lines.push('');
+  lines.push("import 'package:flutter/material.dart';");
+  lines.push('');
+
+  // ── YPColors ──
+  lines.push('// ════════════════════════════════════════');
+  lines.push('// Colors');
+  lines.push('// ════════════════════════════════════════');
+  lines.push('class YPColors {');
+  lines.push('  YPColors._();');
+  lines.push('');
+
+  const colorDefs = [
+    ['primary',          '主色'],
+    ['primary-light',    '主色浅'],
+    ['primary-disabled', '主色禁用'],
+    ['brand-blue',       '品牌色蓝'],
+    ['brand-yellow',     '品牌色黄'],
+    ['bg-white',         '背景-白色'],
+    ['bg-gray',          '背景-浅灰'],
+    ['bg-input',         '输入框背景'],
+    ['divider',          '分割线'],
+    ['red',              '错误色'],
+    ['red-light',        '错误浅色'],
+    ['green',            '成功色'],
+    ['green-light',      '成功浅色'],
+    ['orange',           '警告色'],
+    ['orange-light',     '警告浅色'],
+    ['cyan',             '信息色'],
+    ['cyan-light',       '信息浅色'],
+    ['text-primary',     '主文字'],
+    ['text-secondary',   '次级文字'],
+    ['text-placeholder', '占位文字'],
+    ['text-disabled',    '禁用文字'],
+    ['mask',             '弹窗蒙层'],
+  ];
+
+  // Static light-mode colors
+  lines.push('  // ── 亮色主题静态值 Light ──');
+  colorDefs.forEach(([key, zh]) => {
+    const lv = colorVal(lc[key] || '#000000');
+    lines.push(`  /// ${zh} (亮色)`);
+    lines.push(`  static const Color ${cam(key)}Light = ${lv};`);
+  });
+  lines.push('');
+
+  // Static dark-mode colors
+  lines.push('  // ── 暗夜主题静态值 Dark ──');
+  colorDefs.forEach(([key, zh]) => {
+    const dv = colorVal(dc[key] || '#000000');
+    lines.push(`  /// ${zh} (暗夜)`);
+    lines.push(`  static const Color ${cam(key)}Dark = ${dv};`);
+  });
+  lines.push('');
+
+  // Adaptive (context-aware) getters
+  lines.push('  // ── 自适应颜色（推荐使用）Adaptive ──');
+  colorDefs.forEach(([key, zh]) => {
+    const methodName = cam(key);
+    lines.push(`  /// ${zh} — 自动适配亮色/暗夜`);
+    lines.push(`  static Color ${methodName}(BuildContext context) =>`);
+    lines.push(`    Theme.of(context).brightness == Brightness.dark`);
+    lines.push(`      ? ${methodName}Dark`);
+    lines.push(`      : ${methodName}Light;`);
+    lines.push('');
+  });
+
+  lines.push('}');
+  lines.push('');
+
+  // ── YPSpacing ──
+  lines.push('// ════════════════════════════════════════');
+  lines.push('// Spacing');
+  lines.push('// ════════════════════════════════════════');
+  lines.push('class YPSpacing {');
+  lines.push('  YPSpacing._();');
+  lines.push('');
+  TOKENS.spacing.forEach(s => {
+    const num = parseFloat(s.value);
+    const shortName = s.name.replace('spacing-', 's');
+    lines.push(`  /// ${s.label}`);
+    lines.push(`  static const double ${shortName} = ${num}.0;`);
+  });
+  lines.push('}');
+  lines.push('');
+
+  // ── YPRadius ──
+  lines.push('// ════════════════════════════════════════');
+  lines.push('// Border Radius');
+  lines.push('// ════════════════════════════════════════');
+  lines.push('class YPRadius {');
+  lines.push('  YPRadius._();');
+  lines.push('');
+  TOKENS.radius.forEach(r => {
+    const num = r.value === '999px' ? 999 : parseFloat(r.value);
+    const shortName = r.name.replace('radius-', 'r').replace('-', '');
+    const borderRadius = num >= 999
+      ? 'BorderRadius.circular(9999)'
+      : `BorderRadius.circular(${num}.0)`;
+    lines.push(`  /// ${r.desc}`);
+    lines.push(`  static const double ${shortName} = ${num >= 999 ? 9999 : num}.0;`);
+    lines.push(`  static BorderRadius get ${shortName}Border => BorderRadius.circular(${shortName});`);
+  });
+  lines.push('}');
+  lines.push('');
+
+  // ── YPFontSize ──
+  lines.push('// ════════════════════════════════════════');
+  lines.push('// Font Size');
+  lines.push('// ════════════════════════════════════════');
+  lines.push('class YPFontSize {');
+  lines.push('  YPFontSize._();');
+  lines.push('');
+  TOKENS.fontSizes.forEach(f => {
+    const shortName = 'f' + f.value;
+    lines.push(`  /// ${f.desc}`);
+    lines.push(`  static const double ${shortName} = ${f.value}.0;`);
+  });
+  lines.push('}');
+  lines.push('');
+
+  // ── YPTextStyle helpers ──
+  lines.push('// ════════════════════════════════════════');
+  lines.push('// TextStyle 快捷方法');
+  lines.push('// ════════════════════════════════════════');
+  lines.push('class YPTextStyle {');
+  lines.push('  YPTextStyle._();');
+  lines.push('');
+  const textStyles = [
+    ['body', '14', 'FontWeight.w400', '正文（常用）'],
+    ['bodyLarge', '15', 'FontWeight.w400', '正文（稍大）'],
+    ['label', '12', 'FontWeight.w500', '说明文字、标签'],
+    ['caption', '11', 'FontWeight.w400', '辅助信息'],
+    ['subTitle', '16', 'FontWeight.w500', '副标题'],
+    ['title', '17', 'FontWeight.w600', '标题'],
+    ['titleLarge', '19', 'FontWeight.w700', '大标题'],
+    ['display', '21', 'FontWeight.w700', '页面主标题'],
+    ['number', '23', 'FontWeight.w700', '突出数字'],
+    ['numberLarge', '27', 'FontWeight.w900', '超大展示数字'],
+  ];
+  textStyles.forEach(([name, size, weight, desc]) => {
+    lines.push(`  /// ${desc}`);
+    lines.push(`  static TextStyle ${name}(BuildContext context, {Color? color}) => TextStyle(`);
+    lines.push(`    fontSize: ${size}.0,`);
+    lines.push(`    fontWeight: ${weight},`);
+    lines.push(`    color: color ?? YPColors.textPrimary(context),`);
+    lines.push(`  );`);
+    lines.push('');
+  });
+  lines.push('}');
+  lines.push('');
+  lines.push('// Generated by 鱼泡直聘 Design System · ' + date);
+
+  downloadFile('yp_design_tokens.dart', lines.join('\n'));
+}
+
+/* ── Init ── */
+const saved = (() => { try { return localStorage.getItem('ds-theme'); } catch(e) { return null; } })();
+setTheme(saved === 'dark' ? 'dark' : 'light');
+
+/* ── Mobile download dropdown ── */
+function toggleMobDownload() {
+  const btn   = document.getElementById('mob-dl-btn');
+  const panel = document.getElementById('mob-dl-panel');
+  const isOpen = panel.classList.contains('open');
+  if (isOpen) {
+    closeMobDownload();
+  } else {
+    panel.style.display = 'block';
+    // force reflow then animate in
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => panel.classList.add('open'));
+    });
+    btn.classList.add('open');
+    // close on outside click
+    setTimeout(() => {
+      document.addEventListener('click', closeMobOnOutside);
+    }, 10);
+  }
+}
+function closeMobDownload() {
+  const btn   = document.getElementById('mob-dl-btn');
+  const panel = document.getElementById('mob-dl-panel');
+  panel.classList.remove('open');
+  btn.classList.remove('open');
+  setTimeout(() => {
+    if (!panel.classList.contains('open')) panel.style.display = '';
+  }, 200);
+  document.removeEventListener('click', closeMobOnOutside);
+}
+function closeMobOnOutside(e) {
+  const btn   = document.getElementById('mob-dl-btn');
+  const panel = document.getElementById('mob-dl-panel');
+  if (!btn.contains(e.target) && !panel.contains(e.target)) {
+    closeMobDownload();
+  }
+}
+
+/* ── Stagger cards on load ── */
+(function staggerCards() {
+  // Base delay after header finishes (~0.55s) + per-card offset
+  const BASE = 0.52;
+  const STEP = 0.055;
+  // Only animate cards visible in the initial viewport (first section)
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, i) => {
+    card.style.animationDelay = (BASE + i * STEP) + 's';
+  });
+})();
+
+/* ── Nav items slide in ── */
+(function staggerNav() {
+  const items = document.querySelectorAll('.nav-item');
+  items.forEach((el, i) => {
+    el.style.animation = `fadeUp 0.38s cubic-bezier(0.22,1,0.36,1) both ${0.08 + i * 0.05}s`;
+  });
+})();
+</script>
+
+<div id="copy-toast">已复制</div>
+</body>
+</html>
